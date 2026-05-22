@@ -1,9 +1,7 @@
 {
   "name": "site-pousada-alto-da-cruz",
   "version": "1.0.0",
-  "description": "Site estático pronto para Cloudflare Pages",
   "scripts": {
     "build": "echo 'Build concluído com sucesso!'"
-  },
-  "license": "ISC"
+  }
 }
