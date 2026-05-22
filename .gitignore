@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.firebase/
+backups/
+*.zip
+.DS_Store
