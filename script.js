@@ -40,7 +40,7 @@ bookingForm.addEventListener('submit', async function (e) {
   }
 
   if (new Date(`${checkout}T00:00:00`) <= new Date(`${checkin}T00:00:00`)) {
-    formMessage.textContent = 'A data de saída precisa ser posterior Ã  entrada.';
+    formMessage.textContent = 'A data de saída precisa ser posterior à entrada.';
     formMessage.classList.add('error');
     showToast('Data de saída inválida.', 'error');
     return;
@@ -63,7 +63,7 @@ bookingForm.addEventListener('submit', async function (e) {
       notes: observacoes,
     });
 
-    formMessage.textContent = 'âœ“ Reserva enviada com sucesso! A pousada entrará em contato pelo WhatsApp.';
+    formMessage.textContent = '✓ Reserva enviada com sucesso! A pousada entrará em contato pelo WhatsApp.';
     formMessage.classList.add('success');
     showToast('Reserva enviada com sucesso.');
     bookingForm.reset();
@@ -101,3 +101,35 @@ whatsappBtn.addEventListener('click', function () {
   }
 });
 
+// Animação de Fade-in ao rolar a página
+function initScrollReveal() {
+  const observerOptions = {
+    threshold: 0.1 // Ativa quando 10% do elemento estiver visível
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+        observer.unobserve(entry.target); // Para de observar após animar uma vez
+      }
+    });
+  }, observerOptions);
+
+  // Seleciona as seções e também os cards de quartos individualmente
+  document.querySelectorAll('.section, .booking-card, .hero-inner, .rooms article').forEach(el => {
+    el.classList.add('reveal');
+
+    // Se o elemento for um card de quarto, aplica um delay baseado no índice
+    if (el.tagName.toLowerCase() === 'article' && el.closest('.rooms')) {
+      const cards = Array.from(el.parentNode.querySelectorAll('article'));
+      const index = cards.indexOf(el);
+      // Multiplica o índice por 0.15s para criar o efeito de escada
+      el.style.transitionDelay = `${index * 0.15}s`;
+    }
+
+    observer.observe(el);
+  });
+}
+
+initScrollReveal();
