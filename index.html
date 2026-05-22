@@ -17,14 +17,13 @@
       <span></span>
     </button>
     <nav>
-      <a href="#reservas">Reservas</a>
       <a href="#quartos">Acomodações</a>
       <a href="#estrutura">Estrutura</a>
       <a href="#galeria">Galeria</a>
       <a href="#localizacao">Localização</a>
       <a href="./admin.html">Login</a>
     </nav>
-    <a class="btn small" href="#reservas">Reservar agora</a>
+    <a class="btn small" href="https://wa.me/5571985610497" target="_blank">Reservar agora</a>
   </header>
 
   <main>
@@ -35,7 +34,7 @@
           <h1>Hospedagem no coração de Camaçari.</h1>
           <p>A Pousada Alto da Cruz oferece quartos confortáveis, localização estratégica e atendimento rápido para uma estadia tranquila.</p>
           <div class="actions">
-            <a class="btn" href="#reservas">Ver disponibilidade</a>
+            <a class="btn" href="#reserva">Ver disponibilidade</a>
             <a class="btn outline" href="#quartos">Conhecer quartos</a>
           </div>
           <div class="checks">
@@ -53,64 +52,62 @@
       </div>
     </section>
 
-    <section id="reservas" class="section warm">
-      <div class="booking-card">
-        <div class="booking-header">
-          <span class="tag">Faça sua reserva</span>
-          <h2>Consulte disponibilidade e nossa equipe confirmará pelo WhatsApp.</h2>
-        </div>
-        <form id="bookingForm">
-          <div class="form-group">
-            <label for="nome">Seu Nome</label>
-            <input id="nome" placeholder="Nome completo" required>
-          </div>
-          <div class="form-group">
-            <label for="telefone">WhatsApp</label>
-            <input id="telefone" placeholder="(71) 99999-9999" type="tel" required>
-          </div>
-          <div class="form-group">
-            <label for="cpf">CPF <span class="optional">(opcional)</span></label>
-            <input id="cpf" placeholder="000.000.000-00" type="text">
-          </div>
-          <div class="form-group">
-            <label for="checkin">Data de Entrada</label>
-            <input type="date" id="checkin" required>
-          </div>
-          <div class="form-group">
-            <label for="checkout">Data de Saída</label>
-            <input type="date" id="checkout" required>
-          </div>
-          <div class="form-group">
-            <label for="hospedes">Hóspedes</label>
-            <select id="hospedes" required>
-              <option value="">Selecione...</option>
-              <option value="1">1 hóspede</option>
-              <option value="2">2 hóspedes</option>
-              <option value="3">3 hóspedes</option>
-              <option value="4">4 hóspedes</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="quarto">Acomodação</label>
-            <select id="quarto" required>
-              <option value="">Selecionar acomodação...</option>
-              <option value="Quarto casal">Quarto casal</option>
-              <option value="Quarto duplo">Quarto duplo</option>
-              <option value="Quarto individual">Quarto individual</option>
-              <option value="Consultar melhor opção">Consultar melhor opção</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="observacoes">Observações <span class="optional">(opcional)</span></label>
-            <textarea id="observacoes" placeholder="Informações adicionais para sua reserva..." rows="3"></textarea>
-          </div>
-          <div class="booking-btn-container">
-            <button class="btn" type="submit" id="submitBtn">Enviar Reserva</button>
-            <a class="btn outline" href="https://wa.me/5571985610497" target="_blank" id="whatsappBtn">Consultar no WhatsApp</a>
-          </div>
-          <p class="form-message" id="formMessage"></p>
-        </form>
+    <section id="reserva" class="booking-card">
+      <div class="booking-header">
+        <span class="tag">Reserva rápida</span>
+        <h2>Consultar disponibilidade</h2>
       </div>
+      <form id="bookingForm">
+        <div class="form-group">
+          <label for="nome">Seu Nome</label>
+          <input id="nome" placeholder="Nome completo" required>
+        </div>
+        <div class="form-group">
+          <label for="telefone">WhatsApp</label>
+          <input id="telefone" placeholder="(71) 99999-9999" type="tel" required>
+        </div>
+        <div class="form-group">
+          <label for="cpf">CPF <span class="optional">(opcional)</span></label>
+          <input id="cpf" placeholder="000.000.000-00" type="text">
+        </div>
+        <div class="form-group">
+          <label for="checkin">Data de Entrada</label>
+          <input type="date" id="checkin" required>
+        </div>
+        <div class="form-group">
+          <label for="checkout">Data de Saída</label>
+          <input type="date" id="checkout" required>
+        </div>
+        <div class="form-group">
+          <label for="hospedes">Hóspedes</label>
+          <select id="hospedes" required>
+            <option value="">Selecione...</option>
+            <option value="1">1 hóspede</option>
+            <option value="2">2 hóspedes</option>
+            <option value="3">3 hóspedes</option>
+            <option value="4">4 hóspedes</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="quarto">Acomodação</label>
+          <select id="quarto" required>
+            <option value="">Selecionar acomodação...</option>
+            <option value="Quarto casal">Quarto casal</option>
+            <option value="Quarto duplo">Quarto duplo</option>
+            <option value="Quarto individual">Quarto individual</option>
+            <option value="Consultar melhor opção">Consultar melhor opção</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="observacoes">Observações <span class="optional">(opcional)</span></label>
+          <textarea id="observacoes" placeholder="Informações adicionais para sua reserva..." rows="3"></textarea>
+        </div>
+        <div class="booking-btn-container">
+          <button class="btn" type="submit" id="submitBtn">Enviar Reserva</button>
+          <a class="btn outline" href="https://wa.me/5571985610497" target="_blank" id="whatsappBtn">Consultar no WhatsApp</a>
+        </div>
+        <p class="form-message" id="formMessage"></p>
+      </form>
     </section>
 
     <section class="section">
@@ -133,21 +130,21 @@
             <source srcset="assets/images/quarto-casal.webp" type="image/webp">
             <img src="assets/images/quarto-casal.jpg" alt="Quarto casal" loading="lazy">
           </picture>
-          <h3>Quarto casal</h3><p>Ideal para quem busca conforto e tranquilidade.</p><a href="#reservas">Reservar →</a>
+          <h3>Quarto casal</h3><p>Ideal para quem busca conforto e tranquilidade.</p><a href="#reserva">Reservar →</a>
         </article>
         <article>
           <picture>
             <source srcset="assets/images/quarto-duplo.webp" type="image/webp">
             <img src="assets/images/quarto-duplo.jpg" alt="Quarto duplo" loading="lazy">
           </picture>
-          <h3>Quarto duplo</h3><p>Camas separadas e espaço funcional.</p><a href="#reservas">Reservar →</a>
+          <h3>Quarto duplo</h3><p>Camas separadas e espaço funcional.</p><a href="#reserva">Reservar →</a>
         </article>
         <article>
           <picture>
             <source srcset="assets/images/quarto-simples.webp" type="image/webp">
             <img src="assets/images/quarto-simples.jpg" alt="Quarto individual" loading="lazy">
           </picture>
-          <h3>Quarto individual</h3><p>Opção prática para estadia rápida.</p><a href="#reservas">Reservar →</a>
+          <h3>Quarto individual</h3><p>Opção prática para estadia rápida.</p><a href="#reserva">Reservar →</a>
         </article>
       </div>
     </section>

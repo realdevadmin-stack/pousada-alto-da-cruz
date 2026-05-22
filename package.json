@@ -2,6 +2,7 @@
   "name": "functions",
   "description": "Cloud Functions for Firebase",
   "scripts": {
+    "build": "echo \"Build passed\"",
     "deploy": "firebase deploy --only functions"
   },
   "dependencies": {

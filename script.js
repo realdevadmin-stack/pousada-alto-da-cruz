@@ -209,7 +209,7 @@ function initScrollReveal() {
   }, observerOptions);
 
   // Seleciona as seções e também os cards de quartos e destaques individualmente
-  document.querySelectorAll('.section, .hero-inner, .rooms article, .features article').forEach((el, index) => {
+  document.querySelectorAll('.section, .booking-card, .hero-inner, .rooms article, .features article').forEach((el, index) => {
     // Define a direção com base no índice: pares vêm da esquerda, ímpares da direita
     const directionClass = index % 2 === 0 ? 'reveal-left' : 'reveal-right';
     el.classList.add(directionClass);
