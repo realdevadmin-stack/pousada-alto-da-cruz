@@ -1012,19 +1012,18 @@ footer {
   position: fixed;
   width: 10px;
   height: 10px;
-  top: -10px;
   z-index: 2100;
   pointer-events: none;
   border-radius: 2px;
 }
 
-@keyframes confetti-fall {
+@keyframes confetti-shoot {
   0% {
-    transform: translateY(0) rotate(0deg);
+    transform: translate(0, 0) rotate(0deg);
     opacity: 1;
   }
   100% {
-    transform: translateY(100vh) rotate(720deg);
+    transform: translate(var(--tx), var(--ty)) rotate(var(--tr));
     opacity: 0;
   }
 }

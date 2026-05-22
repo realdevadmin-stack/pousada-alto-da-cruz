@@ -19,21 +19,32 @@ function normalizePhone(value) {
 // Efeito de Confete Simples
 function launchConfetti() {
   const colors = ['#ff7b00', '#20ba56', '#003b95', '#ffcc00', '#f4f8fd'];
-  for (let i = 0; i < 60; i++) {
-    const confetti = document.createElement('div');
+  for (let i = 0; i < ocument.createElement('div');
     confetti.className = 'confetti';
-    confetti.style.left = Math.random() * 100 + 'vw';
+    
+    confetti.style.bottom = '-10px';
+    
+    // Define o ponto de origem (esquerda ou direita)
+    if (isLeft) {
+      confetti.style.left = '-10px';
+      confetti.style.setProperty('--tx', (Math.random() * 80 + 20) + 'vw');
+    } else {
+      confetti.style.right = '-10px';
+      confetti.style.setProperty('--tx', -(Math.random() * 80 + 20) + 'vw');
+    }
+
+    // Define a trajetória (para cima e rotação)
+    confetti.style.setProperty('--ty', -(Math.random() * 80 + 40) + 'vh');
+    confetti.style.setProperty('--tr', (Math.random() * 720) + 'deg');
+
     confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
     confetti.style.width = Math.random() * 8 + 6 + 'px';
     confetti.style.height = confetti.style.width;
-    confetti.style.animation = `confetti-fall ${Math.random() * 3 + 2}s linear forwards`;
-    confetti.style.opacity = Math.random();
-    document.body.appendChild(confetti);
-    setTimeout(() => confetti.remove(), 5000);
+    confetti.style.animation = `confetti-shoot ${Math.random() * 2 + 1.5}s ease-out forwards`;
+fm00);
   }
 }
-
-// Gerar link do WhatsApp baseado nos dados atuais do formulário
+a atuais do formulário
 function getWhatsAppLink() {
   const nome = document.getElementById('nome').value.trim();
   const checkin = document.getElementById('checkin').value;
