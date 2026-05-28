@@ -1,7 +1,8 @@
 {
   "name": "site-pousada-alto-da-cruz",
   "version": "1.0.0",
+  "private": true,
   "scripts": {
-    "build": "echo \"Build concluido com sucesso!\""
+    "build": "echo \"Build passed\""
   }
 }

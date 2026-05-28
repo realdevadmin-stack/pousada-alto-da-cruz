@@ -1,5 +1,6 @@
 import {
   auth,
+  firebaseReady,
   onAuthStateChange,
   signInAdmin,
   signOutAdmin,
@@ -17,7 +18,6 @@ const loginForm = document.getElementById('loginForm');
 const loginMessage = document.getElementById('loginMessage');
 const signOutBtn = document.getElementById('signOutBtn');
 const adminContent = document.getElementById('adminContent');
-const guestContent = document.getElementById('guestContent');
 const authBlock = document.getElementById('authBlock');
 const adminUserLabel = document.getElementById('adminUserLabel');
 const adminRoleLabel = document.getElementById('adminRoleLabel');
@@ -128,14 +128,14 @@ function buildCalendarView() {
       const checkOut = new Date(`${reservation.checkOut}T00:00:00`);
       days.forEach((day, dayIndex) => {
         if (day >= checkIn && day < checkOut) {
-          const cell = row.children[1 + dayIndex];
+          const cell = row.children[dayIndex];
           const chip = document.createElement('button');
           chip.type = 'button';
           chip.className = `reservation-chip ${getStatusClass(reservation.status)}`;
           chip.textContent = reservation.guestName;
           chip.title = `${reservation.guestName} • ${reservation.checkIn} → ${reservation.checkOut}`;
           chip.addEventListener('click', () => renderReservationDetails(reservation));
-          cell.appendChild(chip);
+          if (cell) cell.appendChild(chip);
         }
       });
     });
@@ -316,29 +316,16 @@ async function refreshAdminData() {
     setLoading(true, 'Atualizando painel...');
     rooms = await fetchRooms();
     reservations = await fetchReservations();
-    
-    // Limpa áreas de conteúdo antes de renderizar para evitar duplicidade
-    guestContent.innerHTML = ''; 
-
-    if (currentRole === 'hospede') {
-      adminContent.classList.add('hidden');
-      guestContent.classList.remove('hidden');
-      renderGuestDashboard();
+    cashEntries = await fetchCashEntries();
+    auditLogs = await fetchAuditLogs();
+    buildCalendarView();
+    renderCashSummary();
+    buildReports();
+    if (currentRole === 'admin') {
+      renderLogs();
+      logsTabBtn.classList.remove('hidden');
     } else {
-      guestContent.classList.add('hidden');
-      adminContent.classList.remove('hidden');
-      cashEntries = await fetchCashEntries();
-      auditLogs = await fetchAuditLogs();
-      buildCalendarView();
-      renderCashSummary();
-      buildReports();
-      
-      if (currentRole === 'admin') {
-        renderLogs();
-        logsTabBtn.classList.remove('hidden');
-      } else {
-        logsTabBtn.classList.add('hidden');
-      }
+      logsTabBtn.classList.add('hidden');
     }
   } catch (error) {
     console.error('Erro ao carregar dados administrativos', error);
@@ -346,24 +333,6 @@ async function refreshAdminData() {
   } finally {
     setLoading(false);
   }
-}
-
-function renderGuestDashboard() {
-  const guestReservationsEl = document.getElementById('guestReservations');
-  const myRes = reservations.filter(res => normalizePhone(res.phone) === normalizePhone(currentUser.phoneNumber || currentUser.email));
-  
-  if (myRes.length === 0) {
-    guestReservationsEl.innerHTML = '<p>Nenhuma reserva encontrada para este usuário.</p>';
-    return;
-  }
-
-  guestReservationsEl.innerHTML = myRes.map(res => `
-    <div class="details-panel" style="margin-bottom: 20px; margin-top: 20px;">
-      <h3>Hospedagem: ${res.roomType}</h3>
-      <p><strong>Status:</strong> <span class="status-pill ${getStatusClass(res.status)}">${res.status}</span></p>
-      <p><strong>Check-in:</strong> ${res.checkIn} | <strong>Check-out:</strong> ${res.checkOut}</p>
-    </div>
-  `).join('');
 }
 
 async function handleCashSubmit(event) {
@@ -438,7 +407,7 @@ async function handleLogin(event) {
     await refreshAdminData();
   } catch (error) {
     console.error(error);
-    loginMessage.textContent = 'Falha no login. Verifique suas credenciais.';
+    loginMessage.textContent = firebaseReady ? 'Falha no login. Verifique suas credenciais.' : 'Firebase não configurado. Preencha o arquivo config.js com os dados reais do Firebase.';
     loginMessage.className = 'form-message error';
   } finally {
     setLoading(false);
@@ -446,6 +415,10 @@ async function handleLogin(event) {
 }
 
 async function initAuthObserver() {
+  if (!firebaseReady) {
+    loginMessage.textContent = 'Firebase não configurado. Preencha o arquivo config.js para ativar o painel admin.';
+    loginMessage.className = 'form-message error';
+  }
   onAuthStateChange(async user => {
     if (user) {
       currentUser = user;

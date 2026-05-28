@@ -19,14 +19,33 @@ Site público estático pronto para Cloudflare Pages.
 - `favicon.png`
 - `assets/images/`
 
-## Otimização de Imagens
 
-Para converter imagens JPG para WebP via linha de comando (utilizando `cwebp`):
+## Correções aplicadas
 
-```bash
-# Individual
-cwebp assets/images/foto.jpg -q 80 -o assets/images/foto.webp
+- Corrigido erro de Firebase vazio: o app não tenta iniciar Firebase sem `config.js` preenchido.
+- Corrigido botão do WhatsApp para enviar mensagens para a pousada: `5571985610497`.
+- Corrigidos emojis e textos quebrados por encoding.
+- Corrigido calendário do painel admin (`row.children[dayIndex]`).
+- Corrigido bloco CSS quebrado do cabeçalho do calendário.
+- Removido link `Admin` do menu público.
 
-# Em lote (Bash)
-for f in assets/images/*.jpg; do cwebp -q 80 "$f" -o "${f%.jpg}.webp"; done
+## Ativar Firebase
+
+Preencha `config.js` com os dados reais do Firebase Console:
+
+```js
+export const firebaseConfig = {
+  apiKey: "SUA_API_KEY",
+  authDomain: "SEU_PROJETO.firebaseapp.com",
+  projectId: "SEU_PROJETO",
+  storageBucket: "SEU_PROJETO.appspot.com",
+  messagingSenderId: "SEU_MESSAGING_ID",
+  appId: "SEU_APP_ID",
+};
 ```
+
+No Firebase, habilite Authentication com Email/Password e adicione os domínios autorizados:
+
+- localhost
+- pousadaaltodacruz.online
+- www.pousadaaltodacruz.online

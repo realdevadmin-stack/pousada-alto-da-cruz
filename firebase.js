@@ -24,12 +24,31 @@ import {
 } from 'https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js';
 import { firebaseConfig } from './config.js';
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
+function isFirebaseConfigured(config) {
+  return Boolean(
+    config &&
+    config.apiKey &&
+    config.authDomain &&
+    config.projectId &&
+    config.appId
+  );
+}
+
+const firebaseReady = isFirebaseConfigured(firebaseConfig);
+const app = firebaseReady ? initializeApp(firebaseConfig) : null;
+const db = app ? getFirestore(app) : null;
+const auth = app ? getAuth(app) : null;
+
+function requireFirebase() {
+  if (!firebaseReady || !app || !db || !auth) {
+    throw new Error('Firebase não configurado. Preencha o arquivo config.js com os dados reais do Firebase.');
+  }
+}
 
 export async function enviarReserva(data) {
   try {
+    requireFirebase();
+
     if (!data.guestName || !data.phone || !data.checkIn || !data.checkOut || !data.people || !data.roomType) {
       throw new Error('Campos obrigatórios faltando');
     }
@@ -65,48 +84,59 @@ export async function enviarReserva(data) {
 }
 
 export async function signInAdmin(email, password) {
+  requireFirebase();
   await setPersistence(auth, browserLocalPersistence);
-  const result = await signInWithEmailAndPassword(auth, email, password);
-  return result;
+  return signInWithEmailAndPassword(auth, email, password);
 }
 
 export async function signOutAdmin() {
+  requireFirebase();
   return signOut(auth);
 }
 
 export function onAuthStateChange(callback) {
+  if (!firebaseReady || !auth) {
+    callback(null);
+    return () => {};
+  }
   return onAuthStateChanged(auth, callback);
 }
 
 export async function getUserProfile(uid) {
+  requireFirebase();
   const profileDoc = await getDoc(doc(db, 'users', uid));
   return profileDoc.exists() ? { id: profileDoc.id, ...profileDoc.data() } : null;
 }
 
 export async function fetchRooms() {
+  requireFirebase();
   const snapshot = await getDocs(collection(db, 'rooms'));
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 }
 
 export async function fetchReservations() {
+  requireFirebase();
   const reservationsQuery = query(collection(db, 'reservations'), orderBy('checkIn', 'asc'));
   const snapshot = await getDocs(reservationsQuery);
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 }
 
 export async function fetchCashEntries() {
+  requireFirebase();
   const cashQuery = query(collection(db, 'cash'), orderBy('createdAt', 'desc'));
   const snapshot = await getDocs(cashQuery);
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 }
 
 export async function fetchAuditLogs() {
+  requireFirebase();
   const logsQuery = query(collection(db, 'auditLogs'), orderBy('createdAt', 'desc'));
   const snapshot = await getDocs(logsQuery);
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 }
 
 export async function addCashEntry(entry) {
+  requireFirebase();
   const docRef = await addDoc(collection(db, 'cash'), {
     amount: Number(entry.amount),
     type: entry.type,
@@ -120,11 +150,13 @@ export async function addCashEntry(entry) {
 }
 
 export async function updateReservationStatus(reservationId, updates) {
+  requireFirebase();
   const reservationRef = doc(db, 'reservations', reservationId);
   await updateDoc(reservationRef, updates);
 }
 
 export async function logAction(action, details, metadata = {}) {
+  requireFirebase();
   await addDoc(collection(db, 'auditLogs'), {
     action,
     details,
@@ -137,4 +169,4 @@ export async function logAction(action, details, metadata = {}) {
   });
 }
 
-export { app, db, auth };
+export { app, db, auth, firebaseReady };
