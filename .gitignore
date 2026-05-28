@@ -4,3 +4,6 @@ dist/
 backups/
 *.zip
 .DS_Store
+.wrangler/
+.env
+package-lock.json
